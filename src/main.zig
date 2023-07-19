@@ -1,5 +1,5 @@
 const std = @import("std");
-const scanner = @import("scanner");
+const scanner = @import("zscan");
 
 const fmt = std.fmt;
 const eql = std.mem.eql;
