@@ -1,0 +1,3 @@
+zig-out/
+zig-cache
+scan_report.txt
