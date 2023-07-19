@@ -1,55 +1,44 @@
 const std = @import("std");
-const net = std.net;
-const log = std.log;
+const scanner = @import("scanner");
+
+const fmt = std.fmt;
+const eql = std.mem.eql;
 const testing = std.testing;
+const string = []const u8;
 
 var gpa = std.heap.GeneralPurposeAllocator(.{}){};
-const alloc = std.heap.page_allocator;
 const stdout = std.io.getStdOut().writer();
 
-const ScannerResult = enum {
-    OPEN,
-    CLOSED,
-    NOTSET,
-};
+fn printUsage() !void {
+    try stdout.print("Usage: [Options] <TargetIP> <TargetPort>\n", .{});
+}
 
-const ScannerReport = struct {
-    host: []const u8,
-    port: u16,
-    status: ScannerResult,
-
-    fn show(self: *ScannerReport) !void {
-        const str_status = @tagName(self.status);
-        try stdout.print("Host: {s}\nPort: {any}\nStatus: {s}\n", .{ self.host, self.port, str_status });
-    }
-};
-
-fn scan(hostIp: []const u8, hostPort: u16) !ScannerReport {
-    var report = ScannerReport{ .host = hostIp, .port = hostPort, .status = ScannerResult.NOTSET };
-
-    if (net.tcpConnectToHost(alloc, hostIp, hostPort)) |res| {
-        res.close();
-        report.status = ScannerResult.OPEN;
-        return report;
-    } else |err| switch (err) {
-        error.ConnectionRefused => {
-            report.status = ScannerResult.CLOSED;
-            return report;
-        },
-
-        else => {
-            log.err("Error whlie creating tcp socket!\n", .{});
-            return err;
-        },
-    }
+fn printHelp() !void {
+    try printUsage();
+    try stdout.print("\n-h Prints this message.\n", .{});
 }
 
 pub fn main() !void {
     const galloc = gpa.allocator();
     const args = try std.process.argsAlloc(galloc);
 
-    var report = try scan("localhost", 8000);
-    try report.show();
+    var hPort: u16 = undefined;
+    // var host: string = undefined;
+
+    if (args.len == 1) {
+        try printUsage();
+    } else if (eql(u8, args[1], "-h")) {
+        try printHelp();
+    } else if (eql(u8, args[1], "-p")) {
+        if (args.len > 2) {
+            hPort = try std.fmt.parseInt(u16, args[2], 10);
+        } else {
+            try printHelp();
+        }
+    }
+
+    try stdout.print("args: {s}\n", .{args});
+    try stdout.print("hPort: {any}\n", .{hPort});
 
     std.process.argsFree(galloc, args);
     _ = gpa.deinit();
@@ -61,6 +50,6 @@ pub fn main() !void {
 // localhost:6969 should *normally* be closed by default no matter what
 
 test "closed port result" {
-    var res = try scan("localhost", 6969);
-    testing.expect(res.status == ScannerResult.CLOSED) catch unreachable;
+    var res = try scanner.scan("localhost", 6969);
+    testing.expect(res.status == scanner.PortStatus.CLOSED) catch unreachable;
 }
