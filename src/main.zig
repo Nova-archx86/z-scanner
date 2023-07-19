@@ -48,16 +48,19 @@ pub fn main() !void {
     const galloc = gpa.allocator();
     const args = try std.process.argsAlloc(galloc);
 
-    var report = try scan("192.168.0.4", 22);
+    var report = try scan("localhost", 8000);
     try report.show();
 
-    std.debug.print("{s}", .{args});
     std.process.argsFree(galloc, args);
-
     _ = gpa.deinit();
 }
 
-test "scanner" {
+// Good enough for testing basic scan() functionality
+// can't really test for default open ports since
+// every os has different defaults and services
+// localhost:6969 should *normally* be closed by default no matter what
+
+test "closed port result" {
     var res = try scan("localhost", 6969);
-    try testing.expect(res.status == ScannerResult.CLOSED);
+    testing.expect(res.status == ScannerResult.CLOSED) catch unreachable;
 }
