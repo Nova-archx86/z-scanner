@@ -1,2 +1,6 @@
 GPLv2:
 - This
+
+MIT:
+= https://spdx.org/licenses/MIT
+- git https://github.com/MasterQ32/zig-args
