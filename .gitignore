@@ -1,3 +1,7 @@
 zig-out/
 zig-cache
+.zigmod
+deps.zig
 scan_report.txt
+.zigmod
+deps.zig
