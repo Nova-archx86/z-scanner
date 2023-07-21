@@ -6,34 +6,18 @@ const string = []const u8;
 const stdout = std.io.getStdOut().writer();
 const alloc = std.heap.page_allocator;
 
-const PortStatus = enum {
+pub const PortState = enum {
     OPEN,
     CLOSED,
-    NOTSET,
 };
 
-const ScannerReport = struct {
-    host: string,
-    port: u16,
-    status: PortStatus,
-
-    fn show(self: *ScannerReport) !void {
-        const str_status = @tagName(self.status);
-        try stdout.print("Host: {s}\nPort: {any}\nStatus: {s}\n", .{ self.host, self.port, str_status });
-    }
-};
-
-fn scan(hostIp: string, hostPort: u16) !ScannerReport {
-    var report = ScannerReport{ .host = hostIp, .port = hostPort, .status = PortStatus.NOTSET };
-
-    if (net.tcpConnectToHost(alloc, hostIp, hostPort)) |res| {
+pub fn scan(host: string, port: u16) !PortState {
+    if (net.tcpConnectToHost(alloc, host, port)) |res| {
         res.close();
-        report.status = PortStatus.OPEN;
-        return report;
+        return PortState.OPEN;
     } else |err| switch (err) {
         error.ConnectionRefused => {
-            report.status = PortStatus.CLOSED;
-            return report;
+            return PortState.CLOSED;
         },
 
         else => {
