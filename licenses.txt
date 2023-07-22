@@ -3,4 +3,4 @@ GPLv2:
 
 MIT:
 = https://spdx.org/licenses/MIT
-- git https://github.com/MasterQ32/zig-args
+- git https://github.com/Hejsil/zig-clap

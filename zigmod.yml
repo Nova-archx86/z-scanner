@@ -4,4 +4,4 @@ license: GPLv2
 description: A port scanner that takes heavy insperation from the nmap project
 root_dependencies:
 
-  - src: git https://github.com/MasterQ32/zig-args
+  - src: git https://github.com/Hejsil/zig-clap
