@@ -1,20 +1,40 @@
+# Z-scanner
+A simple yet, effective port scanner written in zig inspired by the nmap project.
+
 # Disclaimer
 This software comes without any warrenty and I am not responsible
-for the way that you use this software. Scan responsibly. See LICSENCE for more info
+for the way that you use this software. Scan responsibly. 
 
-# Z-scan
-A port scanner inspired by nmap (https://nmap.org) written in zig
-
-# Installation
+### Installation
+Download the latest build from releases and copy it to somewhere on your $PATH  (ex: /usr/local/bin)
 
 ### Building from source
 
 Requirements:
-1. zig 0.10.1
+1. The master branch build of zig (0.11.0-dev+)
+2. zigmod
 
-Clone the repo using git and build the project using zig build
+Clone the repo using git move into the source directory
     
     git clone https://github.com/Nova-archx86/zscan
     
-    cd zscan; zig build
+    cd zscan;
 
+Install all dependencies
+    
+    zigmod fetch
+
+Run zig build.
+    
+    zig build
+
+
+### Usage
+-p can be used to specify single or multiple ports 
+--target or -t is used to specify the remote host to scan.
+
+    zscan -p 22 --target <host>
+
+or 
+    
+    zscan -p 22-1023 --target <host>
