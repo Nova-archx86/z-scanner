@@ -31,7 +31,7 @@ fn scan(host: string, port: u16) !PortState {
     }
 }
 
-pub fn main() !void {
+pub fn main() !u8 {
     const params = comptime clap.parseParamsComptime(
         \\-h, --help             Display this help and exit.
         \\-p, --ports <str>   Specifys a single port or multiple ports Ex: -p 22 or -p 22-1023
@@ -40,12 +40,28 @@ pub fn main() !void {
 
     var res = clap.parse(clap.Help, &params, clap.parsers.default, .{}) catch |err| {
         try clap.usage(std.io.getStdErr().writer(), clap.Help, &params);
+        try stdout.print("\n", .{});
         return err;
     };
 
-    if (res.args.help != 0) try clap.help(std.io.getStdErr().writer(), clap.Help, &params, .{});
-    if (res.args.ports == null and res.args.help == 0) try clap.usage(std.io.getStdErr().writer(), clap.Help, &params);
-    if (res.args.target == null and res.args.help == 0) try clap.usage(std.io.getStdErr().writer(), clap.Help, &params);
+    defer res.deinit();
+
+    if (res.args.help != 0) {
+        try clap.help(std.io.getStdErr().writer(), clap.Help, &params, .{});
+        return 0;
+    }
+
+    if (res.args.ports == null and res.args.help == 0) {
+        try clap.usage(std.io.getStdErr().writer(), clap.Help, &params);
+        try stdout.print("\n", .{});
+        return 1;
+    }
+
+    if (res.args.target == null and res.args.help == 0) {
+        try clap.usage(std.io.getStdErr().writer(), clap.Help, &params);
+        try stdout.print("\n", .{});
+        return 1;
+    }
 
     // Using classic nmap style port args (e.g -p22-1023 or -p 22-1023)
     const host: string = res.args.target.?;
@@ -90,7 +106,7 @@ pub fn main() !void {
 
     try stdout.print("Not shown: {d} closed ports (conn refused)\n", .{num_closed});
 
-    defer res.deinit();
+    return 0;
 }
 
 test "scan localhost" {
