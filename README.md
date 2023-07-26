@@ -11,7 +11,7 @@ Download the latest build from releases and copy it to somewhere on your $PATH  
 ### Building from source
 
 Requirements:
-1. The master branch build of zig (0.11.0-dev+)
+1. The master branch build of zig (0.11.0-dev.4059+17255bed4)
 2. zigmod
 
 Clone the repo using git move into the source directory
