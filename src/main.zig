@@ -6,7 +6,7 @@ const net = std.net;
 const testing = std.testing;
 
 const string = []const u8;
-const stdout = std.io.getStdOut().writer();
+const stdout = std.io.getStdOut().writer(); // Errors when cross compiling for x86_64-windows
 const alloc = std.heap.page_allocator;
 const parseInt = std.fmt.parseInt;
 
@@ -104,7 +104,7 @@ pub fn main() !u8 {
         }
     }
 
-    try stdout.print("Not shown: {d} closed ports (conn refused)\n", .{num_closed});
+    if (num_closed > 0) try stdout.print("Not shown: {d} closed ports (conn refused)\n", .{num_closed});
 
     return 0;
 }
