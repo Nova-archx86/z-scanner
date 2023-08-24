@@ -11,30 +11,31 @@ Download the latest build from releases and copy it to somewhere on your $PATH  
 ### Building from source
 
 Requirements:
-1. zig 0.11.0-dev <= 0.11.0-dev.4059+17255bed4 (better if this build is used) 
+1. zig 0.11.0
 2. zigmod
 
 Clone the repo using git move into the source directory
+~~~    
+git clone https://github.com/Nova-archx86/zscan
     
-    git clone https://github.com/Nova-archx86/zscan
-    
-    cd zscan;
-
+cd zscan
+~~~
 Install all dependencies
-    
-    zigmod fetch
-
+~~~
+zigmod fetch
+~~~
 Run zig build.
-    
-    zig build
-
+~~~    
+zig build
+~~~
 
 ### Usage
 -p can be used to specify single or multiple ports 
 --target or -t is used to specify the remote host to scan.
-
-    zscan -p 22 --target <host>
-
+~~~
+zscan -p 22 --target <host>
+~~~
 or 
-    
-    zscan -p 22-1023 --target <host>
+~~~    
+zscan -p 22-1023 --target <host>
+~~~
