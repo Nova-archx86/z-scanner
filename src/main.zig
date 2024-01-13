@@ -37,8 +37,8 @@ pub fn main() !u8 {
         \\-p, --ports <str>   Specifys a single port or multiple ports Ex: -p 22 or -p 22-1023
         \\-t, --target <str>  Target hostname/ip address to scan
     );
-
-    var res = clap.parse(clap.Help, &params, clap.parsers.default, .{}) catch |err| {
+    var diag = clap.Diagnostic{};
+    var res = clap.parse(clap.Help, &params, clap.parsers.default, .{ .allocator = alloc, .diagnostic = &diag }) catch |err| {
         try clap.usage(std.io.getStdErr().writer(), clap.Help, &params);
         try stdout.print("\n", .{});
         return err;
