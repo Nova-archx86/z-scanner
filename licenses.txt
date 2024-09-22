@@ -1,6 +1,5 @@
 GPLv2:
 - This
 
-MIT:
-= https://spdx.org/licenses/MIT
+Unspecified:
 - git https://github.com/Hejsil/zig-clap

@@ -1,7 +1,0 @@
-id: 00gck7qnmbwbw2wpvogjc5vkhv0y54i713cvcvax8bdyw6zs
-name: zscan
-license: GPLv2
-description: A port scanner that takes heavy insperation from the nmap project
-root_dependencies:
-
-  - src: git https://github.com/Hejsil/zig-clap

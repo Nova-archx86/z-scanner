@@ -84,7 +84,7 @@ pub fn main() !u8 {
         const last_port = ports[1];
 
         while (first_port < last_port) {
-            var state = scan(host, first_port) catch |err| return err;
+            const state = scan(host, first_port) catch |err| return err;
 
             if (state == PortState.OPEN) {
                 try stdout.print("Port {d}: {s}\n", .{ first_port, @tagName(state) });
