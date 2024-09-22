@@ -11,21 +11,24 @@ Download the latest build from releases and copy it to somewhere on your $PATH  
 ### Building from source
 
 Requirements:
-1. zig 0.11.0
-2. zigmod
+1. at least zig 0.13.0 or higher
 
 Clone the repo using git move into the source directory
-~~~    
-git clone https://github.com/Nova-archx86/zscan
+~~~ 
+git clone https://github.com/Nova-archx86/z-scanner
     
-cd zscan
+cd z-scanner
 ~~~
 Install all dependencies
 ~~~
-zigmod fetch
+zig fetch --save https://github.com/Hejsil/zig-clap/archive/refs/tags/0.9.1.tar.gz
+~~~
+Or (if using the master branch of zig)
+~~~
+zig fetch --save git+https://github.com/Hejsil/zig-clap
 ~~~
 Run zig build.
-~~~    
+~~~ 
 zig build
 ~~~
 
