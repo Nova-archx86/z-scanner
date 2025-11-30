@@ -1,5 +1,0 @@
-GPLv2:
-- This
-
-Unspecified:
-- git https://github.com/Hejsil/zig-clap
